@@ -22,4 +22,16 @@ class LoginViewModelTests: XCTestCase {
     super.tearDown()
     sut = nil
   }
+  
+  func test_GivenEmptyEmail_WhenLogin_ShowError() {
+    // Given
+    let email = ""
+    let password = ""
+    
+    // When
+    sut.login(email: email, password: password)
+    
+    // Then
+    // Assert there is "Email can't be empty." error
+  }
 }
