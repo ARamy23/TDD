@@ -10,4 +10,7 @@ import Foundation
 
 public class LoginViewModel {
   
+  func login(email: String, password: String) {
+    
+  }
 }
