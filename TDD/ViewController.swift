@@ -10,11 +10,16 @@ import UIKit
 
 class ViewController: UIViewController {
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    // Do any additional setup after loading the view.
+  @IBOutlet private weak var emailTextField: UITextField!
+  @IBOutlet private weak var passwordTextField: UITextField!
+  
+  private lazy var viewModel = LoginViewModel()
+  
+  @IBAction func didTapLogin() {
+    viewModel.login(
+      email: emailTextField.text ?? "",
+      password: passwordTextField.text ?? ""
+    )
   }
-
-
 }
 
