@@ -10,6 +10,8 @@ import Foundation
 
 public class LoginViewModel {
   
+  public var validationErrors: [ValidationError] = [] // <- Added
+  
   func login(email: String, password: String) {
     
   }
