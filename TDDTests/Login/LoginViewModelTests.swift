@@ -32,6 +32,6 @@ class LoginViewModelTests: XCTestCase {
     sut.login(email: email, password: password)
     
     // Then
-    // Assert there is "Email can't be empty." error
+    XCTAssertTrue(sut.validationErrors.contains(ValidationError.emailIsEmpty)) // <- ADDED
   }
 }
