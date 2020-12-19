@@ -10,9 +10,11 @@ import Foundation
 
 public class LoginViewModel {
   
-  public var validationErrors: [ValidationError] = [] // <- Added
+  public var validationErrors: [ValidationError] = []
   
   func login(email: String, password: String) {
-    
+    if email.isEmpty {
+      validationErrors.append(.emailIsEmpty)
+    }
   }
 }
