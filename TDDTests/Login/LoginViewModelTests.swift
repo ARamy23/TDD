@@ -34,4 +34,17 @@ class LoginViewModelTests: XCTestCase {
     // Then
     XCTAssertTrue(sut.validationErrors.contains(ValidationError.emailIsEmpty)) // <- ADDED
   }
+  
+  func test_GivenAnError_WhenLogin_OnErrorIsCalled() {
+    // Given
+    let email = ""
+    let password = ""
+    
+    // When
+    sut.onError = { errors in
+      // Then
+      XCTAssertEqual(errors.first!.localizedDescription, ValidationError.emailIsEmpty.localizedDescription)
+    }
+    sut.login(email: email, password: password)
+  }
 }
