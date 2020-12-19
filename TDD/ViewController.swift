@@ -15,6 +15,13 @@ class ViewController: UIViewController {
   
   private lazy var viewModel = LoginViewModel()
   
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    viewModel.onError = { [weak self] errors in
+      self?.showErrorsAlert(errors: errors)
+    }
+  }
+  
   @IBAction func didTapLogin() {
     viewModel.login(
       email: emailTextField.text ?? "",
@@ -23,3 +30,16 @@ class ViewController: UIViewController {
   }
 }
 
+private extension ViewController {
+  func showErrorsAlert(errors: [Error]) {
+    let alert = UIAlertController(
+      title: "Oops, something went wrong.",
+      message: errors.map { $0.localizedDescription }.joined(separator: "\n"),
+      preferredStyle: .alert
+    )
+    
+    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+    
+    self.present(alert, animated: true, completion: nil)
+  }
+}
