@@ -32,7 +32,7 @@ class LoginViewModelTests: XCTestCase {
     sut.login(email: email, password: password)
     
     // Then
-    XCTAssertTrue(sut.validationErrors.contains(ValidationError.emailIsEmpty)) // <- ADDED
+    XCTAssertTrue(sut.validationErrors.contains(ValidationError.emailIsEmpty))
   }
   
   func test_GivenAnError_WhenLogin_OnErrorIsCalled() {
@@ -47,4 +47,18 @@ class LoginViewModelTests: XCTestCase {
     }
     sut.login(email: email, password: password)
   }
+    
+    func test_GivenUserDoesntExist_WhenLogin_UserNotFoundErrorIsShown() {
+        // Given
+        let email = "valid_email@gmail.com"
+        let password ="Somevalid1Password"
+        
+        sut.onError = { errors in
+            // Then
+            XCTAssertTrue(errors.contains(where: { NetworkError.userNotFound == $0 }))
+        }
+        
+        // When
+        sut.login(email: email, password: password)
+    }
 }
