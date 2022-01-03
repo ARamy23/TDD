@@ -13,7 +13,7 @@ class ViewController: UIViewController {
   @IBOutlet private weak var emailTextField: UITextField!
   @IBOutlet private weak var passwordTextField: UITextField!
   
-  private lazy var viewModel = LoginViewModel()
+  private lazy var viewModel = LoginViewModel(network: URLSessionNetwork())
   
   override func viewDidLoad() {
     super.viewDidLoad()

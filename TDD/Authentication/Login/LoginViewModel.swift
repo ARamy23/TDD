@@ -8,9 +8,20 @@
 
 import Foundation
 
+struct User: Codable {
+  let name: String
+}
+
 public class LoginViewModel {
   
   public var validationErrors: [ValidationError] = []
+  public var networkErrors: [NetworkError] = []
+  
+  let network: NetworkProtocol
+  
+  init(network: NetworkProtocol) {
+    self.network = network
+  }
   
   public var onError: (([Error]) -> Void)?
   
@@ -21,9 +32,21 @@ public class LoginViewModel {
     
     guard validationErrors.isEmpty else {
       onError?(validationErrors)
-      validationErrors.removeAll()
       return
     }
-    // Do actual login here
+    
+    self.validationErrors.removeAll()
+    self.networkErrors.removeAll()
+    
+    network.call(
+      api: AuthEndpoint.login(email: email, password: password),
+      expected: User.self) { results in
+        switch results {
+        case let .success(user):
+          print(user)
+        case let .failure(error):
+          self.networkErrors.append(error)
+        }
+      }
   }
 }

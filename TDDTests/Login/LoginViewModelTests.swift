@@ -10,16 +10,19 @@ import XCTest
 @testable import TDD
 
 class LoginViewModelTests: XCTestCase {
-
+  
+  var network: MockedNetwork!
   var sut: LoginViewModel!
   
   override func setUp() {
     super.setUp()
-    sut = LoginViewModel()
+    network = .init()
+    sut = .init(network: network)
   }
   
   override func tearDown() {
     super.tearDown()
+    network = nil
     sut = nil
   }
   
@@ -47,18 +50,18 @@ class LoginViewModelTests: XCTestCase {
     }
     sut.login(email: email, password: password)
   }
+  
+  func test_GivenUserDoesntExist_WhenLogin_UserNotFoundErrorIsShown() {
+    // Given
+    let email = "valid_email@gmail.com"
+    let password = "Somevalid1Password"
     
-    func test_GivenUserDoesntExist_WhenLogin_UserNotFoundErrorIsShown() {
-        // Given
-        let email = "valid_email@gmail.com"
-        let password ="Somevalid1Password"
-        
-        sut.onError = { errors in
-            // Then
-            XCTAssertTrue(errors.contains(where: { NetworkError.userNotFound == $0 }))
-        }
-        
-        // When
-        sut.login(email: email, password: password)
-    }
+    network.expectedError = NetworkError.userNotFound // <- Added
+    
+    // When
+    sut.login(email: email, password: password)
+    
+    // Then
+    XCTAssertTrue(sut.networkErrors.contains(NetworkError.userNotFound))
+  }
 }
