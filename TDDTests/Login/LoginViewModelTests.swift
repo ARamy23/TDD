@@ -64,4 +64,18 @@ class LoginViewModelTests: XCTestCase {
     // Then
     XCTAssertTrue(sut.networkErrors.contains(NetworkError.userNotFound))
   }
+  
+  func test_GivenUserExists_WhenLogin_TokenIsCached() {
+    // Given
+    let email = "valid_email@gmail.com"
+    let password = "Somevalid1Password"
+    
+    let expectedModel = AccessToken()
+    network.expectedModel = expectedModel
+    // When
+    sut.login(email: email, password: password)
+    
+    // Then
+    XCTAssertTrue(cache.encryptedStorage.contains(expectedModel))
+  }
 }

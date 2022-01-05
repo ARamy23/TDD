@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		047B30CA2785FE2D00660AF5 /* AccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047B30C92785FE2C00660AF5 /* AccessToken.swift */; };
 		04D492542783131400B3E84E /* MockedNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D492532783131400B3E84E /* MockedNetwork.swift */; };
 		04D49257278313CE00B3E84E /* NetworkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D49256278313CE00B3E84E /* NetworkProtocol.swift */; };
 		04D49259278317E100B3E84E /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D49258278317E100B3E84E /* Endpoint.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		047B30C92785FE2C00660AF5 /* AccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessToken.swift; sourceTree = "<group>"; };
 		04D492532783131400B3E84E /* MockedNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedNetwork.swift; sourceTree = "<group>"; };
 		04D49256278313CE00B3E84E /* NetworkProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProtocol.swift; sourceTree = "<group>"; };
 		04D49258278317E100B3E84E /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
@@ -74,6 +76,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		047B30C72785FCDC00660AF5 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cache;
+			sourceTree = "<group>";
+		};
+		047B30C82785FE2400660AF5 /* Data Models */ = {
+			isa = PBXGroup;
+			children = (
+				047B30C92785FE2C00660AF5 /* AccessToken.swift */,
+			);
+			path = "Data Models";
+			sourceTree = "<group>";
+		};
 		04D49252278312F500B3E84E /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +136,8 @@
 		B81DDD5F258D7A2300BC6142 /* Business */ = {
 			isa = PBXGroup;
 			children = (
+				047B30C82785FE2400660AF5 /* Data Models */,
+				047B30C72785FCDC00660AF5 /* Cache */,
 				04D49255278313C500B3E84E /* Network */,
 				B81DDD62258D7A3E00BC6142 /* Errors */,
 			);
@@ -291,6 +310,7 @@
 				04D4925D2783298600B3E84E /* LoginEndpoint.swift in Sources */,
 				B85491EC25446F84006319DC /* AppDelegate.swift in Sources */,
 				B85491EE25446F84006319DC /* SceneDelegate.swift in Sources */,
+				047B30CA2785FE2D00660AF5 /* AccessToken.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
