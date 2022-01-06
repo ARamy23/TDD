@@ -18,9 +18,14 @@ public class LoginViewModel {
   public var networkErrors: [NetworkError] = []
   
   let network: NetworkProtocol
+  let cache: CacheProtocol
   
-  init(network: NetworkProtocol) {
+  init(
+    network: NetworkProtocol,
+    cache: CacheProtocol
+  ) {
     self.network = network
+    self.cache = cache
   }
   
   public var onError: (([Error]) -> Void)?
@@ -40,10 +45,11 @@ public class LoginViewModel {
     
     network.call(
       api: AuthEndpoint.login(email: email, password: password),
-      expected: User.self) { results in
+      expected: AccessToken.self
+    ) { results in
         switch results {
-        case let .success(user):
-          print(user)
+        case let .success(accessToken):
+          self.cache.save(accessToken, for: .accessToken)
         case let .failure(error):
           self.networkErrors.append(error)
         }

@@ -12,17 +12,20 @@ import XCTest
 class LoginViewModelTests: XCTestCase {
   
   var network: MockedNetwork!
+  var cache: MockedCache!
   var sut: LoginViewModel!
   
   override func setUp() {
     super.setUp()
     network = .init()
-    sut = .init(network: network)
+    cache = .init()
+    sut = .init(network: network, cache: cache)
   }
   
   override func tearDown() {
     super.tearDown()
     network = nil
+    cache = nil
     sut = nil
   }
   
@@ -76,6 +79,6 @@ class LoginViewModelTests: XCTestCase {
     sut.login(email: email, password: password)
     
     // Then
-    XCTAssertTrue(cache.encryptedStorage.contains(expectedModel))
+    XCTAssertNotNil(cache.storage[.accessToken])
   }
 }
