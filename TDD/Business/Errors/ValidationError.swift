@@ -9,15 +9,17 @@
 import Foundation
 
 public enum ValidationError: Error {
-  case emailIsEmpty
+  case empty(BusinessConfigurations.Validation.Field)
 }
 
 extension ValidationError: LocalizedError {
   
   public var errorDescription: String? {
     switch self {
-    case .emailIsEmpty:
-      return "Email can't be empty"
+    case let .empty(field):
+      return "\(field.title) can't be empty"
     }
   }
 }
+
+extension ValidationError: Equatable { }
