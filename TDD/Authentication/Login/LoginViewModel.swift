@@ -31,9 +31,7 @@ public class LoginViewModel {
   public var onError: (([Error]) -> Void)?
   
   func login(email: String, password: String) {
-    if email.isEmpty {
-      validationErrors.append(.emailIsEmpty)
-    }
+    validate(email, password)
     
     guard validationErrors.isEmpty else {
       onError?(validationErrors)
@@ -54,5 +52,39 @@ public class LoginViewModel {
           self.networkErrors.append(error)
         }
       }
+  }
+}
+
+private extension LoginViewModel {
+  func validate(_ email: String, _ password: String) {
+    do {
+      try validate(email: email)
+    } catch let error as ValidationError {
+      self.validationErrors.append(error)
+    } catch {
+      print(error)
+    }
+  }
+  func validate(email: String) throws {
+    try EmailValidationRule(email: email).validate()
+  }
+}
+
+public protocol ValidationRule {
+  var value: String { get set }
+  func validate() throws
+}
+
+public struct EmailValidationRule: ValidationRule {
+  public var field: BusinessConfigurations.Validation.Field = .email
+  
+  public var value: String
+  
+  public init(email: String = "") {
+    value = email
+  }
+  
+  public func validate() throws {
+    guard value.isEmpty == false else { throw ValidationError.empty(.email) }
   }
 }
