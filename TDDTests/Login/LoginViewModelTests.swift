@@ -38,7 +38,7 @@ class LoginViewModelTests: XCTestCase {
     sut.login(email: email, password: password)
     
     // Then
-    XCTAssertTrue(sut.validationErrors.contains(ValidationError.emailIsEmpty))
+    XCTAssertTrue(sut.validationErrors.contains(.empty(.email)))
   }
   
   func test_GivenAnError_WhenLogin_OnErrorIsCalled() {
@@ -49,7 +49,7 @@ class LoginViewModelTests: XCTestCase {
     // When
     sut.onError = { errors in
       // Then
-      XCTAssertEqual(errors.first!.localizedDescription, ValidationError.emailIsEmpty.localizedDescription)
+      XCTAssertEqual(errors.first!.localizedDescription, ValidationError.empty(.email).localizedDescription)
     }
     sut.login(email: email, password: password)
   }

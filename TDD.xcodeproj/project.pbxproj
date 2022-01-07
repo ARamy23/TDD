@@ -14,6 +14,7 @@
 		042445052786C4A600D3B1EB /* StorageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042445042786C4A600D3B1EB /* StorageProtocol.swift */; };
 		047B30CA2785FE2D00660AF5 /* AccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047B30C92785FE2C00660AF5 /* AccessToken.swift */; };
 		047B30CC2785FF0500660AF5 /* CacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047B30CB2785FF0500660AF5 /* CacheProtocol.swift */; };
+		048942E2278832850002E263 /* BusinessConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048942E1278832850002E263 /* BusinessConfigurations.swift */; };
 		04D492542783131400B3E84E /* MockedNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D492532783131400B3E84E /* MockedNetwork.swift */; };
 		04D49257278313CE00B3E84E /* NetworkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D49256278313CE00B3E84E /* NetworkProtocol.swift */; };
 		04D49259278317E100B3E84E /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D49258278317E100B3E84E /* Endpoint.swift */; };
@@ -48,6 +49,7 @@
 		042445042786C4A600D3B1EB /* StorageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageProtocol.swift; sourceTree = "<group>"; };
 		047B30C92785FE2C00660AF5 /* AccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessToken.swift; sourceTree = "<group>"; };
 		047B30CB2785FF0500660AF5 /* CacheProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheProtocol.swift; sourceTree = "<group>"; };
+		048942E1278832850002E263 /* BusinessConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessConfigurations.swift; sourceTree = "<group>"; };
 		04D492532783131400B3E84E /* MockedNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedNetwork.swift; sourceTree = "<group>"; };
 		04D49256278313CE00B3E84E /* NetworkProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProtocol.swift; sourceTree = "<group>"; };
 		04D49258278317E100B3E84E /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
@@ -115,6 +117,14 @@
 			path = "Data Models";
 			sourceTree = "<group>";
 		};
+		048942E0278832780002E263 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				048942E1278832850002E263 /* BusinessConfigurations.swift */,
+			);
+			path = Configurations;
+			sourceTree = "<group>";
+		};
 		04D49252278312F500B3E84E /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,6 +171,7 @@
 		B81DDD5F258D7A2300BC6142 /* Business */ = {
 			isa = PBXGroup;
 			children = (
+				048942E0278832780002E263 /* Configurations */,
 				047B30C82785FE2400660AF5 /* Data Models */,
 				047B30C72785FCDC00660AF5 /* Cache */,
 				04D49255278313C500B3E84E /* Network */,
@@ -338,6 +349,7 @@
 				B81DDD5A258D73C800BC6142 /* LoginViewModel.swift in Sources */,
 				B81DDD64258D7A4B00BC6142 /* ValidationError.swift in Sources */,
 				042444FD2786C20E00D3B1EB /* CacheManager.swift in Sources */,
+				048942E2278832850002E263 /* BusinessConfigurations.swift in Sources */,
 				04D49257278313CE00B3E84E /* NetworkProtocol.swift in Sources */,
 				047B30CC2785FF0500660AF5 /* CacheProtocol.swift in Sources */,
 				B85491F025446F85006319DC /* ViewController.swift in Sources */,
