@@ -66,12 +66,28 @@ class LoginViewModelTests: XCTestCase {
     XCTAssertTrue(sut.validationErrors.contains(.empty(.password)))
   }
   
+  func test_GivenUserPasswordIsShorterThanMinimum_WhenLogin_ErrorIsThrown() {
+    // Given
+    let email = "valid_email@gmail.com"
+    let password = "123"
+    
+    network.expectedError = NetworkError.userNotFound
+    
+    // When
+    sut.login(email: email, password: password)
+    
+    // Then
+    XCTAssertTrue(
+      sut.validationErrors.contains(ValidationError.tooShort(.password))
+    )
+  }
+  
   func test_GivenUserDoesntExist_WhenLogin_UserNotFoundErrorIsShown() {
     // Given
     let email = "valid_email@gmail.com"
     let password = "Somevalid1Password"
     
-    network.expectedError = NetworkError.userNotFound // <- Added
+    network.expectedError = NetworkError.userNotFound
     
     // When
     sut.login(email: email, password: password)

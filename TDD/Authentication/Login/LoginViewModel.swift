@@ -58,15 +58,13 @@ public class LoginViewModel {
 private extension LoginViewModel {
   func validate(_ email: String, _ password: String) {
     do {
-      try validate(email: email)
+      try EmailValidationRule(value: email).validate()
+      try PasswordValidationRule(value: password).validate()
     } catch let error as ValidationError {
       self.validationErrors.append(error)
     } catch {
       print(error)
     }
-  }
-  func validate(email: String) throws {
-    try EmailValidationRule(email: email).validate()
   }
 }
 
@@ -75,16 +73,75 @@ public protocol ValidationRule {
   func validate() throws
 }
 
-public struct EmailValidationRule: ValidationRule {
+public protocol IsMandatory {
+    var field: BusinessConfigurations.Validation.Field { get }
+    func validateIsEmpty() throws
+}
+
+public extension IsMandatory where Self: ValidationRule {
+    func validateIsEmpty() throws {
+        guard value.isEmpty == false else {
+            throw ValidationError.empty(field)
+        }
+    }
+}
+
+public protocol HasMinimum {
+    var field: BusinessConfigurations.Validation.Field { get }
+    func validateMinimum() throws
+}
+
+public protocol HasMaximum {
+    var field: BusinessConfigurations.Validation.Field { get }
+    func validateMaximum() throws
+}
+
+public extension HasMinimum where Self: ValidationRule {
+    func validateMinimum() throws {
+        guard value.count >= field.minMax.min else {
+            throw ValidationError
+                .tooShort(
+                    field
+                )
+        }
+    }
+}
+
+public extension HasMaximum where Self: ValidationRule {
+    func validateMaximum() throws {
+        guard value.count <= field.minMax.max else {
+            throw ValidationError.tooLong(
+                field
+            )
+        }
+    }
+}
+
+public struct EmailValidationRule: ValidationRule, IsMandatory {
   public var field: BusinessConfigurations.Validation.Field = .email
   
   public var value: String
   
-  public init(email: String = "") {
-    value = email
+  public init(value: String = "") {
+    self.value = value
   }
   
   public func validate() throws {
-    guard value.isEmpty == false else { throw ValidationError.empty(.email) }
+    try validateIsEmpty()
+  }
+}
+
+public struct PasswordValidationRule: ValidationRule, IsMandatory, HasMinimum {
+  public var field: BusinessConfigurations.Validation.Field = .password
+  
+  public var value: String
+  
+  public init(value: String = "") {
+    self.value = value
+  }
+  
+  public func validate() throws {
+    try validateIsEmpty()
+    try validateMinimum()
   }
 }
