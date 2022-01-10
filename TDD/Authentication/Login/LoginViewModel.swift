@@ -131,7 +131,7 @@ public struct EmailValidationRule: ValidationRule, IsMandatory {
   }
 }
 
-public struct PasswordValidationRule: ValidationRule, IsMandatory, HasMinimum {
+public struct PasswordValidationRule: ValidationRule, IsMandatory, HasMinimum, HasMaximum {
   public var field: BusinessConfigurations.Validation.Field = .password
   
   public var value: String
@@ -143,5 +143,6 @@ public struct PasswordValidationRule: ValidationRule, IsMandatory, HasMinimum {
   public func validate() throws {
     try validateIsEmpty()
     try validateMinimum()
+    try validateMaximum()
   }
 }

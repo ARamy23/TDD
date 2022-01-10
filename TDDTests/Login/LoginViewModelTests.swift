@@ -82,6 +82,22 @@ class LoginViewModelTests: XCTestCase {
     )
   }
   
+  func test_GivenUserPasswordIsLongerThanMaximum_WhenLogin_ErrorIsThrown() {
+    // Given
+    let email = "valid_email@gmail.com"
+    let password = (1...10).map { _ in "123" }.joined(separator: " ")
+    
+    network.expectedError = NetworkError.userNotFound
+    
+    // When
+    sut.login(email: email, password: password)
+    
+    // Then
+    XCTAssertTrue(
+      sut.validationErrors.contains(ValidationError.tooLong(.password))
+    )
+  }
+  
   func test_GivenUserDoesntExist_WhenLogin_UserNotFoundErrorIsShown() {
     // Given
     let email = "valid_email@gmail.com"
