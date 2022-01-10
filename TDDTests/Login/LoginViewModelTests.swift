@@ -54,6 +54,18 @@ class LoginViewModelTests: XCTestCase {
     sut.login(email: email, password: password)
   }
   
+  func test_GivenAnEmptyPassword_WhenLogin_ThrowsAnError() {
+    // Given
+    let email = "valid_email@gmail.com"
+    let password = ""
+    
+    // When
+    sut.login(email: email, password: password)
+    
+    // Then
+    XCTAssertTrue(sut.validationErrors.contains(.empty(.password)))
+  }
+  
   func test_GivenUserDoesntExist_WhenLogin_UserNotFoundErrorIsShown() {
     // Given
     let email = "valid_email@gmail.com"
