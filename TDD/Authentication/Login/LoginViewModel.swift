@@ -6,39 +6,63 @@
 //  Copyright © 2020 Ahmed Ramy. All rights reserved.
 //
 
-import Foundation
+import Business
+import Entity
+import Combine
 
 struct User: Codable {
   let name: String
 }
 
 public class LoginViewModel {
+  var state: CurrentValueSubject<State, Never> = .init(.idle)
   
-  public var validationErrors: [ValidationError] = []
-  public var networkErrors: [NetworkError] = []
-  
-  public var onError: (([Error]) -> Void)?
-  
-  func login(email: String, password: String) {
+  var cancellables = Set<AnyCancellable>()
+  public func login(email: String, password: String) {
     validate(email, password)
     
-    guard validationErrors.isEmpty else {
-      onError?(validationErrors)
-      return
-    }
-    
-    self.validationErrors.removeAll()
-    self.networkErrors.removeAll()
+    guard state.value.errors.isEmpty else { return }
     
     ServiceLocator.main.network.call(
       api: AuthEndpoint.login(email: email, password: password),
-      expected: AccessToken.self
-    ) { results in
-      switch results {
-        case let .success(accessToken):
-          ServiceLocator.main.cache.save(accessToken, for: .accessToken)
-        case let .failure(error):
-          self.networkErrors.append(error)
+      model: AccessToken.self
+    ).sink(receiveCompletion: { onComplete in
+      guard case let .failure(error) = onComplete else { return }
+      self.state.send(.failure([error.toOError()]))
+    }, receiveValue: { token in
+      try? ServiceLocator.main.cache.save(value: token, for: .accessToken)
+    }).store(in: &cancellables)
+  }
+}
+
+extension LoginViewModel {
+  enum `State`: Equatable {
+    case idle
+    case loading
+    case loaded(String)
+    case failure([OError])
+    
+    var errors: [OError] {
+      switch self {
+        case let .failure(errors):
+          return errors
+        default:
+          return []
+      }
+    }
+    
+    static func == (lhs: LoginViewModel.State, rhs: LoginViewModel.State) -> Bool {
+      switch (lhs, rhs) {
+        case (.idle, .idle):
+          return true
+        case (.loading, .loading):
+          return true
+        case let (.loaded(status1), .loaded(status2)):
+          return status1 == status2
+        case let (.failure(errors1), .failure(errors2)):
+          return errors1 == errors2
+        default:
+          return false
       }
     }
   }
@@ -46,13 +70,20 @@ public class LoginViewModel {
 
 private extension LoginViewModel {
   func validate(_ email: String, _ password: String) {
+    var errors: [OError] = []
     do {
       try EmailValidationRule(value: email).validate()
-      try PasswordValidationRule(value: password).validate()
-    } catch let error as ValidationError {
-      self.validationErrors.append(error)
     } catch {
-      print(error)
+      errors.append(OErrorParser().parse(error))
     }
+    
+    do {
+      try PasswordValidationRule(value: password).validate()
+    } catch {
+      errors.append(OErrorParser().parse(error))
+    }
+    
+    guard !errors.isEmpty else { return }
+    state.send(.failure(errors))
   }
 }

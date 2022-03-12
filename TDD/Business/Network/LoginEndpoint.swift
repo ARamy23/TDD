@@ -6,7 +6,7 @@
 //  Copyright © 2022 Ahmed Ramy. All rights reserved.
 //
 
-import Foundation
+import Business
 
 enum AuthEndpoint {
   case login(email: String, password: String)

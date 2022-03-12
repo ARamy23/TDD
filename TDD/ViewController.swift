@@ -12,14 +12,14 @@ class ViewController: UIViewController {
 
   @IBOutlet private weak var emailTextField: UITextField!
   @IBOutlet private weak var passwordTextField: UITextField!
+  @IBOutlet private weak var loginButtonActivityView: UIActivityIndicatorView!
+  @IBOutlet private weak var statusLabel: UILabel!
   
   private lazy var viewModel = LoginViewModel()
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    viewModel.onError = { [weak self] errors in
-      self?.showErrorsAlert(errors: errors)
-    }
+    // TODO: - Bind State
   }
   
   @IBAction func didTapLogin() {
@@ -27,19 +27,5 @@ class ViewController: UIViewController {
       email: emailTextField.text ?? "",
       password: passwordTextField.text ?? ""
     )
-  }
-}
-
-private extension ViewController {
-  func showErrorsAlert(errors: [Error]) {
-    let alert = UIAlertController(
-      title: "Oops, something went wrong.",
-      message: errors.map { $0.localizedDescription }.joined(separator: "\n"),
-      preferredStyle: .alert
-    )
-    
-    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-    
-    self.present(alert, animated: true, completion: nil)
   }
 }

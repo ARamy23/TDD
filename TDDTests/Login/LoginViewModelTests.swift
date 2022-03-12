@@ -7,12 +7,14 @@
 //
 
 import XCTest
+@testable import Entity
+@testable import Business
 @testable import TDD
 
 class LoginViewModelTests: XCTestCase {
   
-  var network: MockedNetwork!
-  var cache: MockedCache!
+  var network: FakeNetworkManager!
+  var cache: FakeCache!
   var sut: LoginViewModel!
   
   override func setUp() {
@@ -41,20 +43,13 @@ class LoginViewModelTests: XCTestCase {
     sut.login(email: email, password: password)
     
     // Then
-    XCTAssertTrue(sut.validationErrors.contains(.empty(.email)))
-  }
-  
-  func test_GivenAnError_WhenLogin_OnErrorIsCalled() {
-    // Given
-    let email = ""
-    let password = ""
-    
-    // When
-    sut.onError = { errors in
-      // Then
-      XCTAssertEqual(errors.first!.localizedDescription, ValidationError.empty(.email).localizedDescription)
-    }
-    sut.login(email: email, password: password)
+    XCTAssertEqual(
+      sut.state.value,
+      .failure([
+        ValidationError.empty(.email).toOError(),
+        ValidationError.empty(.password).toOError(),
+      ])
+    )
   }
   
   func test_GivenAnEmptyPassword_WhenLogin_ThrowsAnError() {
@@ -66,7 +61,12 @@ class LoginViewModelTests: XCTestCase {
     sut.login(email: email, password: password)
     
     // Then
-    XCTAssertTrue(sut.validationErrors.contains(.empty(.password)))
+    XCTAssertEqual(
+      sut.state.value,
+      .failure([
+        ValidationError.empty(.password).toOError()
+      ])
+    )
   }
   
   func test_GivenUserPasswordIsShorterThanMinimum_WhenLogin_ErrorIsThrown() {
@@ -74,14 +74,15 @@ class LoginViewModelTests: XCTestCase {
     let email = "valid_email@gmail.com"
     let password = "123"
     
-    network.expectedError = NetworkError.userNotFound
-    
     // When
     sut.login(email: email, password: password)
     
     // Then
-    XCTAssertTrue(
-      sut.validationErrors.contains(ValidationError.tooShort(.password))
+    XCTAssertEqual(
+      sut.state.value,
+      .failure([
+        ValidationError.tooShort(.password).toOError()
+      ])
     )
   }
   
@@ -89,15 +90,16 @@ class LoginViewModelTests: XCTestCase {
     // Given
     let email = "valid_email@gmail.com"
     let password = (1...10).map { _ in "123" }.joined(separator: " ")
-    
-    network.expectedError = NetworkError.userNotFound
-    
+        
     // When
     sut.login(email: email, password: password)
     
     // Then
-    XCTAssertTrue(
-      sut.validationErrors.contains(ValidationError.tooLong(.password))
+    XCTAssertEqual(
+      sut.state.value,
+      .failure([
+        ValidationError.tooLong(.password).toOError()
+      ])
     )
   }
   
@@ -106,13 +108,17 @@ class LoginViewModelTests: XCTestCase {
     let email = "valid_email@gmail.com"
     let password = "Somevalid1Password"
     
-    network.expectedError = NetworkError.userNotFound
+    let expectedError = OError(text: "User not found")
+    network.expectedError = expectedError
     
     // When
     sut.login(email: email, password: password)
     
     // Then
-    XCTAssertTrue(sut.networkErrors.contains(NetworkError.userNotFound))
+    XCTAssertEqual(
+      sut.state.value,
+      .failure([expectedError])
+    )
   }
   
   func test_GivenUserExists_WhenLogin_TokenIsCached() {
@@ -121,7 +127,7 @@ class LoginViewModelTests: XCTestCase {
     let password = "Somevalid1Password"
     
     let expectedModel = AccessToken()
-    network.expectedModel = expectedModel
+    network.expectedObject = expectedModel
     // When
     sut.login(email: email, password: password)
     

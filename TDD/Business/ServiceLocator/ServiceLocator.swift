@@ -6,17 +6,17 @@
 //  Copyright © 2022 Ahmed Ramy. All rights reserved.
 //
 
-import Foundation
+import Business
 
 public final class ServiceLocator {
   static var main: ServiceLocator = .init()
   
   let network: NetworkProtocol
-  let cache: CacheProtocol
+  let cache: Storage
   
   init(
-    network: NetworkProtocol = URLSessionNetwork(),
-    cache: CacheProtocol = CacheManager()
+    network: NetworkProtocol = AlamofireManager(),
+    cache: Storage = CacheManager()
   ) {
     self.network = network
     self.cache = cache
