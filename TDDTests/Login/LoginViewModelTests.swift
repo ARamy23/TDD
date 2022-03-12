@@ -19,7 +19,10 @@ class LoginViewModelTests: XCTestCase {
     super.setUp()
     network = .init()
     cache = .init()
-    sut = .init(network: network, cache: cache)
+    
+    ServiceLocator.main = .init(network: network, cache: cache)
+    
+    sut = .init()
   }
   
   override func tearDown() {

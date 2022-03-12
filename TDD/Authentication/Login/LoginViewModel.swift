@@ -17,17 +17,6 @@ public class LoginViewModel {
   public var validationErrors: [ValidationError] = []
   public var networkErrors: [NetworkError] = []
   
-  let network: NetworkProtocol
-  let cache: CacheProtocol
-  
-  init(
-    network: NetworkProtocol,
-    cache: CacheProtocol
-  ) {
-    self.network = network
-    self.cache = cache
-  }
-  
   public var onError: (([Error]) -> Void)?
   
   func login(email: String, password: String) {
@@ -41,17 +30,17 @@ public class LoginViewModel {
     self.validationErrors.removeAll()
     self.networkErrors.removeAll()
     
-    network.call(
+    ServiceLocator.main.network.call(
       api: AuthEndpoint.login(email: email, password: password),
       expected: AccessToken.self
     ) { results in
-        switch results {
+      switch results {
         case let .success(accessToken):
-          self.cache.save(accessToken, for: .accessToken)
+          ServiceLocator.main.cache.save(accessToken, for: .accessToken)
         case let .failure(error):
           self.networkErrors.append(error)
-        }
       }
+    }
   }
 }
 
