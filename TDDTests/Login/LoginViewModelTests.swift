@@ -15,22 +15,25 @@ class LoginViewModelTests: XCTestCase {
   
   var network: FakeNetworkManager!
   var cache: FakeCache!
+  var router: FakeRouter!
   var sut: LoginViewModel!
   
   override func setUp() {
     super.setUp()
     network = .init()
     cache = .init()
+    router = .init()
     
     ServiceLocator.main = .init(network: network, cache: cache)
     
-    sut = .init()
+    sut = .init(router: router)
   }
   
   override func tearDown() {
     super.tearDown()
     network = nil
     cache = nil
+    router = nil
     sut = nil
   }
   
@@ -133,5 +136,25 @@ class LoginViewModelTests: XCTestCase {
     
     // Then
     XCTAssertNotNil(cache.storage[.accessToken])
+  }
+  
+  func test_GivenInvalidEmail_WhenLogin_UserSeesAnAlert() {
+    // Given
+    let email = ""
+    let password = "Somevalid1Password"
+    
+    // When
+    sut.login(email: email, password: password)
+    
+    // Then
+    XCTAssertEqual(
+      router.actions,
+      [
+        RoutingAction.alertWithAction((
+          title: "Validation Errors",
+          message: "Email can't be empty"
+        ))
+      ]
+    )
   }
 }

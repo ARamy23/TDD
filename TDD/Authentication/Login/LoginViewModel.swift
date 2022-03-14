@@ -18,6 +18,12 @@ public class LoginViewModel {
   var state: CurrentValueSubject<State, Never> = .init(.idle)
   
   var cancellables = Set<AnyCancellable>()
+  var router: RouterProtocol
+  
+  init(router: RouterProtocol) {
+    self.router = router
+  }
+  
   public func login(email: String, password: String) {
     validate(email, password)
     
@@ -85,5 +91,13 @@ private extension LoginViewModel {
     
     guard !errors.isEmpty else { return }
     state.send(.failure(errors))
+    router.alertWithAction(
+      title: "Validation Errors",
+      message: errors.map { $0.text }.joined(separator: "\n"),
+      alertStyle: .actionSheet,
+      actions: [
+        (title: "Ok", style: .default, action: { })
+      ]
+    )
   }
 }

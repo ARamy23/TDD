@@ -15,7 +15,7 @@ class ViewController: UIViewController {
   @IBOutlet private weak var loginButtonActivityView: UIActivityIndicatorView!
   @IBOutlet private weak var statusLabel: UILabel!
   
-  private lazy var viewModel = LoginViewModel()
+  private lazy var viewModel = LoginViewModel(router: Router(self))
   
   override func viewDidLoad() {
     super.viewDidLoad()

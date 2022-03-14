@@ -13,6 +13,9 @@
 		045AD4EE27DC6BFB00A931C6 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 045AD4ED27DC6BFB00A931C6 /* Core */; };
 		045AD4F127DC6DF100A931C6 /* LoginEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045AD4F027DC6DF100A931C6 /* LoginEndpoint.swift */; };
 		045AD4F427DC75E100A931C6 /* StorageKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045AD4F327DC75E100A931C6 /* StorageKeys.swift */; };
+		045AD4F727DC8DB900A931C6 /* RouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045AD4F627DC8DB900A931C6 /* RouterProtocol.swift */; };
+		045AD4F927DC90BF00A931C6 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045AD4F827DC90BF00A931C6 /* Router.swift */; };
+		045AD4FB27DC93C400A931C6 /* FakeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045AD4FA27DC93C400A931C6 /* FakeRouter.swift */; };
 		047B30CA2785FE2D00660AF5 /* AccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047B30C92785FE2C00660AF5 /* AccessToken.swift */; };
 		04D492542783131400B3E84E /* FakeNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D492532783131400B3E84E /* FakeNetwork.swift */; };
 		B81DDD54258D734900BC6142 /* LoginViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81DDD53258D734900BC6142 /* LoginViewModelTests.swift */; };
@@ -42,6 +45,9 @@
 		045AD4EB27DC6BB800A931C6 /* OrdiCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = OrdiCore; sourceTree = "<group>"; };
 		045AD4F027DC6DF100A931C6 /* LoginEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginEndpoint.swift; sourceTree = "<group>"; };
 		045AD4F327DC75E100A931C6 /* StorageKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageKeys.swift; sourceTree = "<group>"; };
+		045AD4F627DC8DB900A931C6 /* RouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterProtocol.swift; sourceTree = "<group>"; };
+		045AD4F827DC90BF00A931C6 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		045AD4FA27DC93C400A931C6 /* FakeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeRouter.swift; sourceTree = "<group>"; };
 		047B30C92785FE2C00660AF5 /* AccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessToken.swift; sourceTree = "<group>"; };
 		04D492532783131400B3E84E /* FakeNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeNetwork.swift; sourceTree = "<group>"; };
 		B81DDD53258D734900BC6142 /* LoginViewModelTests.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = LoginViewModelTests.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -110,6 +116,15 @@
 			path = Persistance;
 			sourceTree = "<group>";
 		};
+		045AD4F527DC8DAE00A931C6 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				045AD4F627DC8DB900A931C6 /* RouterProtocol.swift */,
+				045AD4F827DC90BF00A931C6 /* Router.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
 		047B30C82785FE2400660AF5 /* Data Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +138,7 @@
 			children = (
 				04D492532783131400B3E84E /* FakeNetwork.swift */,
 				042444FA2786BB3100D3B1EB /* FakeCache.swift */,
+				045AD4FA27DC93C400A931C6 /* FakeRouter.swift */,
 			);
 			path = Fakes;
 			sourceTree = "<group>";
@@ -154,6 +170,7 @@
 		B81DDD5F258D7A2300BC6142 /* Business */ = {
 			isa = PBXGroup;
 			children = (
+				045AD4F527DC8DAE00A931C6 /* Navigation */,
 				045AD4F227DC75D300A931C6 /* Persistance */,
 				045AD4EF27DC6DF100A931C6 /* Network */,
 				045AD4E727DC6A2B00A931C6 /* ServiceLocator */,
@@ -319,7 +336,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				045AD4F727DC8DB900A931C6 /* RouterProtocol.swift in Sources */,
 				B81DDD5A258D73C800BC6142 /* LoginViewModel.swift in Sources */,
+				045AD4F927DC90BF00A931C6 /* Router.swift in Sources */,
 				B85491F025446F85006319DC /* ViewController.swift in Sources */,
 				045AD4E927DC6A3400A931C6 /* ServiceLocator.swift in Sources */,
 				B85491EC25446F84006319DC /* AppDelegate.swift in Sources */,
@@ -335,6 +354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04D492542783131400B3E84E /* FakeNetwork.swift in Sources */,
+				045AD4FB27DC93C400A931C6 /* FakeRouter.swift in Sources */,
 				B81DDD54258D734900BC6142 /* LoginViewModelTests.swift in Sources */,
 				B854920325446F87006319DC /* TDDTests.swift in Sources */,
 				042444FB2786BB3100D3B1EB /* FakeCache.swift in Sources */,
