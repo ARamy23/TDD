@@ -12,7 +12,7 @@ What you can do to make sure that you keep inline with the post you're currently
 3. [Caching](https://github.com/ARamy23/TDD/tree/caching)
 4. [Validations Improvement](https://github.com/ARamy23/TDD/tree/validations-improvement)
 5. [Alerts, Popups, and Messages](https://github.com/ARamy23/TDD/tree/alerts-popups-testing)
-6. Navigation (WIP)
+6. [Navigation](https://blog.ahmedramy.me/test-driven-development-7-navigation)
 7. Time & System Updates (WIP)
 
 # Practical
